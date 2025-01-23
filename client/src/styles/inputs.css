@@ -1,0 +1,24 @@
+#inputs {
+  font-family: Arial, sans-serif;
+  width: 300px;
+  height: 400px;
+  background-color: #1e201d;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+  border: 5px solid silver;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+}
+
+.file-inputs,
+.text-inputs {
+  margin: 7px;
+  padding: 7px;
+  height: 50px;
+  width: 80%;
+}
