@@ -74,4 +74,4 @@ async function updatePost(req, res) {
     : res.status(404).send("Post not found");
 }
 
-export {createPost,getPosts,deletePost,updatePost}; ;
+export { createPost, getPosts, deletePost, updatePost };
