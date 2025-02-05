@@ -1,40 +1,53 @@
-//Importing express and middlewares and database connection
+// Importing express, middlewares, and database connection
 import express from "express";
 import connectToDB from "./middlewares/connectToDB.js";
 import logger from "./middlewares/logger.js";
 import notFound from "./middlewares/notfound.js";
+import cors from "cors";
 
-//Importing Routers
+// Importing Routers
 import postRouter from "./routers/postRouters.js";
 
+// Initialize App
 const app = express();
-const port = process.env.PORT | 5000;
+const port = process.env.PORT || 5000; // ✅ Correct fallback
 
-app.listen(port, () => console.log(`server is running on port ${port}`));
+// Connect to Database with Error Handling
+connectToDB()
+  .then(() => console.log("Database connected successfully"))
+  .catch((err) => console.error("Database connection failed:", err));
 
-connectToDB();
-//using middlewares
+// Using Middlewares
 app.use(logger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
-//serving static files
+// Serving Static Files
 import { fileURLToPath } from "url";
 import path from "path";
-const __filepath = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filepath);
-app.use("/", express.static(path.join(__dirname, "public")));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-//main page
+// ✅ Serve public folder and uploads
+app.use("/", express.static(path.join(__dirname, "public")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // ✅ Serve uploaded files
+
+// Main API Route
 app.get("/api", (req, res) => {
   res.send("Hello World!");
 });
-//Post router
+
+// Post Router
 app.use("/api/posts", postRouter);
 
-app.get("/index", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+// Fallback Route for SPA (Optional)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html")); // ✅ Catch-all route for React apps
 });
 
-//not found middleware
-app.all("*",notFound);
+// Not Found Middleware
+app.use(notFound);
+
+// Starting the Server
+app.listen(port, () => console.log(`Server is running on port ${port}`));

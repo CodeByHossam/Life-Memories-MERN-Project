@@ -1,9 +1,19 @@
 #app {
   background-color: rgb(52, 51, 49);
   text-align: center;
-  color: blue;
+  color: white;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column-reverse;
+  gap: 20px;
   min-height: 100vh;
+}
+.card-collection{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
