@@ -27,7 +27,7 @@ async function createPost(req, res) {
     console.log("Error saving data");
   }
 
-  res.status(201).send("Post created successfully");
+  res.status(201).json(newPost);
 }
 /**
  * @description ge all posts
